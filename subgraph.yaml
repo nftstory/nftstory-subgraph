@@ -17,6 +17,7 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - Token
+        - NFTStory
       abis:
         - name: NFTStory
           file: ./abis/NFTStory.json

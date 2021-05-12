@@ -1,4 +1,14 @@
 type Token @entity {
   id: ID!
   owner: Bytes!
+  creator: Bytes!
+  creationTxHash: Bytes!
+  mintTime: BigInt!
+  nthMint: BigInt!
+  jsonMetadata: String!
+}
+
+type NFTStory @entity {
+  id: ID!
+  minted: BigInt!
 }

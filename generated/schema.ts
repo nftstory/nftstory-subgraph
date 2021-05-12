@@ -50,4 +50,98 @@ export class Token extends Entity {
   set owner(value: Bytes) {
     this.set("owner", Value.fromBytes(value));
   }
+
+  get creator(): Bytes {
+    let value = this.get("creator");
+    return value.toBytes();
+  }
+
+  set creator(value: Bytes) {
+    this.set("creator", Value.fromBytes(value));
+  }
+
+  get creationTxHash(): Bytes {
+    let value = this.get("creationTxHash");
+    return value.toBytes();
+  }
+
+  set creationTxHash(value: Bytes) {
+    this.set("creationTxHash", Value.fromBytes(value));
+  }
+
+  get collector(): Bytes {
+    let value = this.get("collector");
+    return value.toBytes();
+  }
+
+  set collector(value: Bytes) {
+    this.set("collector", Value.fromBytes(value));
+  }
+
+  get mintTime(): BigInt {
+    let value = this.get("mintTime");
+    return value.toBigInt();
+  }
+
+  set mintTime(value: BigInt) {
+    this.set("mintTime", Value.fromBigInt(value));
+  }
+
+  get nthMint(): BigInt {
+    let value = this.get("nthMint");
+    return value.toBigInt();
+  }
+
+  set nthMint(value: BigInt) {
+    this.set("nthMint", Value.fromBigInt(value));
+  }
+
+  get jsonMetadata(): string {
+    let value = this.get("jsonMetadata");
+    return value.toString();
+  }
+
+  set jsonMetadata(value: string) {
+    this.set("jsonMetadata", Value.fromString(value));
+  }
+}
+
+export class NFTStory extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save NFTStory entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save NFTStory entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("NFTStory", id.toString(), this);
+  }
+
+  static load(id: string): NFTStory | null {
+    return store.get("NFTStory", id) as NFTStory | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get minted(): BigInt {
+    let value = this.get("minted");
+    return value.toBigInt();
+  }
+
+  set minted(value: BigInt) {
+    this.set("minted", Value.fromBigInt(value));
+  }
 }
