@@ -51,13 +51,13 @@ export class Token extends Entity {
     this.set("owner", Value.fromBytes(value));
   }
 
-  get creator(): Bytes {
+  get creator(): string {
     let value = this.get("creator");
-    return value.toBytes();
+    return value.toString();
   }
 
-  set creator(value: Bytes) {
-    this.set("creator", Value.fromBytes(value));
+  set creator(value: string) {
+    this.set("creator", Value.fromString(value));
   }
 
   get creationTxHash(): Bytes {
@@ -69,15 +69,6 @@ export class Token extends Entity {
     this.set("creationTxHash", Value.fromBytes(value));
   }
 
-  get collector(): Bytes {
-    let value = this.get("collector");
-    return value.toBytes();
-  }
-
-  set collector(value: Bytes) {
-    this.set("collector", Value.fromBytes(value));
-  }
-
   get mintTime(): BigInt {
     let value = this.get("mintTime");
     return value.toBigInt();
@@ -87,13 +78,22 @@ export class Token extends Entity {
     this.set("mintTime", Value.fromBigInt(value));
   }
 
-  get nthMint(): BigInt {
-    let value = this.get("nthMint");
+  get nthMintOverral(): BigInt {
+    let value = this.get("nthMintOverral");
     return value.toBigInt();
   }
 
-  set nthMint(value: BigInt) {
-    this.set("nthMint", Value.fromBigInt(value));
+  set nthMintOverral(value: BigInt) {
+    this.set("nthMintOverral", Value.fromBigInt(value));
+  }
+
+  get nthMintCreator(): BigInt {
+    let value = this.get("nthMintCreator");
+    return value.toBigInt();
+  }
+
+  set nthMintCreator(value: BigInt) {
+    this.set("nthMintCreator", Value.fromBigInt(value));
   }
 
   get jsonMetadata(): string {
@@ -134,6 +134,55 @@ export class NFTStory extends Entity {
 
   set id(value: string) {
     this.set("id", Value.fromString(value));
+  }
+
+  get minted(): BigInt {
+    let value = this.get("minted");
+    return value.toBigInt();
+  }
+
+  set minted(value: BigInt) {
+    this.set("minted", Value.fromBigInt(value));
+  }
+}
+
+export class Creator extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Creator entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Creator entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Creator", id.toString(), this);
+  }
+
+  static load(id: string): Creator | null {
+    return store.get("Creator", id) as Creator | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get tokens(): Array<string> {
+    let value = this.get("tokens");
+    return value.toStringArray();
+  }
+
+  set tokens(value: Array<string>) {
+    this.set("tokens", Value.fromStringArray(value));
   }
 
   get minted(): BigInt {

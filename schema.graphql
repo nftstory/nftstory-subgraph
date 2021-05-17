@@ -1,14 +1,21 @@
 type Token @entity {
   id: ID!
   owner: Bytes!
-  creator: Bytes!
+  creator: Creator!
   creationTxHash: Bytes!
   mintTime: BigInt!
-  nthMint: BigInt!
+  nthMintOverral: BigInt!
+  nthMintCreator: BigInt!
   jsonMetadata: String!
 }
 
 type NFTStory @entity {
   id: ID!
+  minted: BigInt!
+}
+
+type Creator @entity {
+  id: ID!
+  tokens: [Token!]! @derivedFrom(field: "creator")
   minted: BigInt!
 }
